@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "462534307564",
+    "project_id": "simplereservationsapp",
+    "storage_bucket": "simplereservationsapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462534307564:android:41d7731e7aa2468805ffc9",
+        "android_client_info": {
+          "package_name": "com.example.simplereservationsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462534307564-3ukag36rt5ius27fp52tor7jncc09934.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRZyd4tc5zMbOpxHBPpr2STHUokbM_KBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462534307564-3ukag36rt5ius27fp52tor7jncc09934.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
