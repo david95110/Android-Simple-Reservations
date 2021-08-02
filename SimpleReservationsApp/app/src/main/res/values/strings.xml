@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">SimpleReservationsApp</string>
+    <string name="Dodaj">Dodaj</string>
+    <string name="Ime">Ime :</string>
+    <string name="ime">Ime</string>
+    <string name="od">Od :</string>
+    <string name="datum">Datum</string>
+    <string name="opis">Opis :</string>
+    <string name="kraj">Do :</string>
+    <string name="sacuvaj">Sacuvaj</string>
+    <string name="loading">Ucitavanje...</string>
+    <string name="boja">Boja :</string>
+    <string name="odaberi_boju">Odaberi boju :</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thur">THUR</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="hello_world">Hello World</string>
+    <string name="backArrow"><![CDATA[<]]></string>
+    <string name="nextArrow"><![CDATA[>]]></string>
 </resources>
