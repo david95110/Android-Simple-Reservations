@@ -114,6 +114,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         mDefaultColor= ContextCompat.getColor(AddReservationActivity.this,R.color.red);
 
         mTextViewOdaberiBoju.setOnClickListener(this);
+        mViewDisplayColor.setOnClickListener(this);
         mBtnSacuvaj.setOnClickListener(this);
         mBtnObrisi.setOnClickListener(this);
         mDatumOd.setOnClickListener(this);
@@ -142,6 +143,9 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         }
         else if(v.getId()==R.id.buttonObrisi){
             deleteReservation();
+        }
+        else if(v.getId()==R.id.viewDisplayColor){
+            openColorPicker();
         }
 
     }
