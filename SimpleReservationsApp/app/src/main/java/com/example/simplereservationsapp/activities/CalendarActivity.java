@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class CalendarActivity extends AppCompatActivity implements View.OnClickListener, IReservationListener, CalendarViewAdapter.OnItemListener {
@@ -140,7 +143,18 @@ public class CalendarActivity extends AppCompatActivity implements View.OnClickL
         progressDialog.setCanceledOnTouchOutside(false);
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setDefaultEnglish() {
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
+        Resources resources = this.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void refreshActivity() {
+        setDefaultEnglish();
         AppManager.getInstance().getReservations(this);
         displayProgressDialog();
     }

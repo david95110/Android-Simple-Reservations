@@ -1,5 +1,6 @@
 package com.example.simplereservationsapp.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -10,6 +11,9 @@ import com.example.simplereservationsapp.managers.AppManager;
 import com.example.simplereservationsapp.modules.Reservation;
 
 import android.app.DatePickerDialog;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import android.widget.Toast;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -41,6 +46,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String month_name = new DateFormatSymbols().getMonths()[month];
                 String date=dayOfMonth+" "+month_name+" "+year;
+
                 clickedDate.setText(date);
         }
     };;
@@ -57,6 +63,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +72,10 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         int mode = getIntent().getIntExtra("mode",ReservationMode.CREATE_MODE.getValue());
         mMode=ReservationMode.values()[mode];
         checkMode();
+        setDefaultEnglish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void checkMode() {
         if(mMode==ReservationMode.CREATE_MODE){
             mBtnObrisi.setVisibility(View.GONE);
@@ -79,6 +88,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void initialiseReservationData() {
         Reservation res=AppManager.getInstance().getReservationToDisplay();
         if(res!=null){
@@ -91,7 +101,18 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setDefaultEnglish() {
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
+        Resources resources = this.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+    }
+
     private void createDatePicker() {
+       
         Calendar calendar= Calendar.getInstance();
         final int year=calendar.get(Calendar.YEAR);
         final int month=calendar.get(Calendar.MONTH);

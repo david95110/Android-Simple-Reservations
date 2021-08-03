@@ -22,4 +22,5 @@
     <string name="backArrow"><![CDATA[<]]></string>
     <string name="nextArrow"><![CDATA[>]]></string>
     <string name="obrisi">Obrisi</string>
+    <string name="empty" />
 </resources>
