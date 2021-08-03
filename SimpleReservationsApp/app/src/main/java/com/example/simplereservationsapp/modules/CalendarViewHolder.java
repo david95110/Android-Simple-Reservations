@@ -1,11 +1,22 @@
 package com.example.simplereservationsapp.modules;
 
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 import com.example.simplereservationsapp.R;
 import com.example.simplereservationsapp.adapters.CalendarViewAdapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -20,12 +31,20 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     }
 
     public Reservation getReservation(){return reservation;}
-    public void setReservation(Reservation res){reservation=res;}
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void setReservation(Reservation res){
+        reservation=res;
+        if(reservation!=null) {
+            dayOfMonth.setBackgroundTintList( ColorStateList.valueOf( reservation.getBoja()));
+        }
+    }
 
     public TextView getDayOfMonth(){return dayOfMonth;}
 
+
     @Override
     public void onClick(View v) {
-        itemListener.OnItemClicked(getAdapterPosition(),(String)dayOfMonth.getText());
+        //itemListener.OnItemClicked(getAdapterPosition(),(String)dayOfMonth.getText());
+        itemListener.OnItemClicked(reservation);
     }
 }

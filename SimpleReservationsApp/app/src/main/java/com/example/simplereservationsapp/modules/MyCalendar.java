@@ -1,6 +1,5 @@
 package com.example.simplereservationsapp.modules;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplereservationsapp.adapters.CalendarViewAdapter;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -27,22 +25,13 @@ public class MyCalendar {
     public LocalDate getSelectedDate(){return selectedDate;}
     public void setSelectedDate(LocalDate date){selectedDate=date;}
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setMonthView(CalendarViewAdapter.OnItemListener activity, TextView mMonthYearText,RecyclerView recyclerView) {
-        mMonthYearText.setText(monthYearFromDate());
-        ArrayList<String> daysOfMonth=getDaysOfMonth();
 
-        CalendarViewAdapter calendarViewAdapter=new CalendarViewAdapter(daysOfMonth,activity);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager((Context) activity,7);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(calendarViewAdapter);
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private ArrayList<String> getDaysOfMonth() {
+    public ArrayList<String> getDaysOfMonth() {
         ArrayList<String> daysOfMonth=new ArrayList<>();
         YearMonth yearMonth=YearMonth.from(selectedDate);
-        int dayOfMonth=yearMonth.lengthOfMonth();
+        int dayOfMonth=yearMonth.lengthOfMonth(); //broj dana u mesecu
         LocalDate firstOfMonth=selectedDate.withDayOfMonth(1);
         int dayOfWeek=firstOfMonth.getDayOfWeek().getValue();
         for(int i=1;i<=42;i++){

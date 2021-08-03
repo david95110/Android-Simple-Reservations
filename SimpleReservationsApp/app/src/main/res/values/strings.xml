@@ -21,4 +21,5 @@
     <string name="hello_world">Hello World</string>
     <string name="backArrow"><![CDATA[<]]></string>
     <string name="nextArrow"><![CDATA[>]]></string>
+    <string name="obrisi">Obrisi</string>
 </resources>

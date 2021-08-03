@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AppManager {
 
     private final FirebaseDatabase firebaseDatabase;
-
+    private Reservation reservationToDisplay;
 
 
     private AppManager(){
@@ -23,6 +23,19 @@ public class AppManager {
     }
     public void getReservations(IReservationListener listener){
         ReservationManager.getInstance().getReservations(listener);
+    }
+
+    public void setReservationToDisplay(Reservation reservation) {
+        reservationToDisplay=reservation;
+    }
+    public Reservation getReservationToDisplay(){return reservationToDisplay;}
+
+    public void deleteReservation(AddReservationActivity listener, Reservation resToDelete) {
+        ReservationManager.getInstance().deleteReservation(listener,resToDelete);
+    }
+
+    public void updateReservation(AddReservationActivity listener, Reservation res) {
+        ReservationManager.getInstance().updateReservation(listener,res);
     }
 
     private static class SingletonHolder{

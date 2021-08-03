@@ -7,4 +7,6 @@ import java.util.ArrayList;
 public interface IReservationListener {
     void onReservationSaved(boolean saved);
     void onReservationsReceived(ArrayList<Reservation> reservations);
+    void onReservationDeleted();
+    void onReservationUpdated();
 }

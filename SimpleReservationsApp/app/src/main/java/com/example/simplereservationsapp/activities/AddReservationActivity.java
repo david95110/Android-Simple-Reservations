@@ -4,26 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.simplereservationsapp.R;
+import com.example.simplereservationsapp.enums.ReservationMode;
 import com.example.simplereservationsapp.interfaces.IReservationListener;
 import com.example.simplereservationsapp.managers.AppManager;
 import com.example.simplereservationsapp.modules.Reservation;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -31,11 +29,13 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
 
     private static final String TAG="AddReservationActivity";
     int mDefaultColor;
-    Button mBtnSacuvaj;
+    LinearLayout mLinearLayoutSacuvajObrisiHolder;
+    Button mBtnSacuvaj,mBtnObrisi;
     EditText mDatumOd,mDatumDo,mTextIme,mTextOpis;
     EditText clickedDate;
     TextView mTextViewOdaberiBoju;
     View mViewDisplayColor;
+    ReservationMode mMode;
     DatePickerDialog.OnDateSetListener setDatumListener=new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -62,7 +62,33 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reservation);
         initialiseComponents();
+        int mode = getIntent().getIntExtra("mode",ReservationMode.CREATE_MODE.getValue());
+        mMode=ReservationMode.values()[mode];
+        checkMode();
+    }
 
+    private void checkMode() {
+        if(mMode==ReservationMode.CREATE_MODE){
+            mBtnObrisi.setVisibility(View.GONE);
+            mBtnObrisi.setClickable(false);
+        }else{
+            mBtnObrisi.setVisibility(View.VISIBLE);
+            mBtnObrisi.setClickable(true);
+            initialiseReservationData();
+        }
+
+    }
+
+    private void initialiseReservationData() {
+        Reservation res=AppManager.getInstance().getReservationToDisplay();
+        if(res!=null){
+            mTextIme.setText(res.getIme());
+            mTextOpis.setText(res.getOpis());
+            mDatumOd.setText(res.getDatumOd());
+            mDatumDo.setText(res.getDatumDo());
+            mViewDisplayColor.setBackgroundColor(res.getBoja());
+
+        }
     }
 
     private void createDatePicker() {
@@ -76,6 +102,8 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
 
     private void initialiseComponents() {
         mBtnSacuvaj=(Button)findViewById(R.id.buttonSacuvaj);
+        mBtnObrisi=(Button)findViewById(R.id.buttonObrisi);
+        mLinearLayoutSacuvajObrisiHolder=(LinearLayout)findViewById(R.id.linearLayoutSacuvajObrisiHolder);
         mDatumOd=(EditText) findViewById(R.id.editTextDatumOd);
         mDatumDo=(EditText) findViewById(R.id.editTextDatumDo);
         mTextIme=(EditText) findViewById(R.id.editTextIme);
@@ -87,6 +115,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
 
         mTextViewOdaberiBoju.setOnClickListener(this);
         mBtnSacuvaj.setOnClickListener(this);
+        mBtnObrisi.setOnClickListener(this);
         mDatumOd.setOnClickListener(this);
         mDatumDo.setOnClickListener(this);
     }
@@ -94,7 +123,10 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.buttonSacuvaj){
-            createReservation();
+            if(mMode==ReservationMode.CREATE_MODE)
+                createReservation();
+            else if(mMode==ReservationMode.PREVIEW_MODE)
+                updateReservation();
 
         }
         else if(v.getId()==R.id.editTextDatumOd){
@@ -108,7 +140,25 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         else if(v.getId()==R.id.textViewOdaberiBoju){
             openColorPicker();
         }
+        else if(v.getId()==R.id.buttonObrisi){
+            deleteReservation();
+        }
 
+    }
+
+    private void updateReservation() {
+        Reservation res=AppManager.getInstance().getReservationToDisplay();
+        res.setIme(mTextIme.getText().toString());
+        res.setOpis(mTextOpis.getText().toString());
+        res.setDatumOd(mDatumOd.getText().toString());
+        res.setDatumDo(mDatumDo.getText().toString());
+        res.setBoja(mDefaultColor);
+        AppManager.getInstance().updateReservation(AddReservationActivity.this,res);
+    }
+
+    private void deleteReservation() {
+        Reservation resToDelete=AppManager.getInstance().getReservationToDisplay();
+        AppManager.getInstance().deleteReservation(AddReservationActivity.this,resToDelete);
     }
 
     private void createReservation() {
@@ -150,5 +200,16 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
     @Override
     public void onReservationsReceived(ArrayList<Reservation> reservations) {
 
+    }
+
+    @Override
+    public void onReservationDeleted() {
+        Toast.makeText(this,"Rezervacija je obrisana.",Toast.LENGTH_LONG).show();
+        closeActivityThread.start();
+    }
+
+    @Override
+    public void onReservationUpdated() {
+        Toast.makeText(this,"Rezervacija je azurirana.",Toast.LENGTH_LONG).show();
     }
 }
