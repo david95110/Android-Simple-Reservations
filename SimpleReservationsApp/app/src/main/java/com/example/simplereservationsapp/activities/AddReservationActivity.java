@@ -68,9 +68,9 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reservation);
-        initialiseComponents();
         int mode = getIntent().getIntExtra("mode",ReservationMode.CREATE_MODE.getValue());
         mMode=ReservationMode.values()[mode];
+        initialiseComponents();
         checkMode();
         setDefaultEnglish();
     }
@@ -80,9 +80,12 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         if(mMode==ReservationMode.CREATE_MODE){
             mBtnObrisi.setVisibility(View.GONE);
             mBtnObrisi.setClickable(false);
+            mDefaultColor= ContextCompat.getColor(AddReservationActivity.this,R.color.red);
         }else{
             mBtnObrisi.setVisibility(View.VISIBLE);
             mBtnObrisi.setClickable(true);
+
+            mDefaultColor= AppManager.getInstance().getReservationToDisplay().getBoja();
             initialiseReservationData();
         }
 
@@ -132,7 +135,7 @@ public class AddReservationActivity extends AppCompatActivity implements View.On
         mTextViewOdaberiBoju=(TextView)findViewById(R.id.textViewOdaberiBoju);
         mViewDisplayColor=(View)findViewById(R.id.viewDisplayColor);
 
-        mDefaultColor= ContextCompat.getColor(AddReservationActivity.this,R.color.red);
+
 
         mTextViewOdaberiBoju.setOnClickListener(this);
         mViewDisplayColor.setOnClickListener(this);

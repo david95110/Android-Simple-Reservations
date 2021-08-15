@@ -12,7 +12,8 @@
         <activity
             android:name=".activities.AddReservationActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.CalendarActivity">
+        <activity android:name=".activities.CalendarActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
